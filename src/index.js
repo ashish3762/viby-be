@@ -9,8 +9,7 @@ const port = process.env.PORT || 3000;
 
 const allowedOrigins = [
   "http://localhost:3000",
-  "https://viby-fe.vercel.app",
-  "https://viby-be.vercel.app"
+  "https://viby-fe.vercel.app"
 ];
 
 const corsOptions = {
@@ -23,6 +22,8 @@ const corsOptions = {
   },
   optionsSuccessStatus: 200,
 };
+
+app.use(cors(corsOptions));
 
 app.use(bodyParser.json());
 
