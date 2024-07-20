@@ -1,6 +1,6 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const { createUser, findUserByEmail } = require('../models/userModel');
+const { createUser, findUserByUsername } = require('../models/userModel');
 
 const register = async (req, res) => {
     const { username, email, password } = req.body;
@@ -15,10 +15,10 @@ const register = async (req, res) => {
 };
 
 const login = async (req, res) => {
-    const { email, password } = req.body;
+    const { username, password } = req.body;
 
     try {
-        const user = await findUserByEmail(email);
+        const user = await findUserByUsername(username);
         if (!user) {
             return res.status(400).json({ message: 'Invalid Credentials' });
         }
