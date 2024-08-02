@@ -1,13 +1,13 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const { createUser, findUserByUsername } = require('../models/userModel');
+const { createUser, findUserByEmail } = require('../models/userModel');
 
 const register = async (req, res) => {
-    const { username, email, password } = req.body;
+    const { firstName, lastName, email, password } = req.body;
     const hashedPassword = await bcrypt.hash(password, 10);
 
     try {
-        const user = await createUser(username, email, hashedPassword);
+        const user = await createUser(firstName, lastName, email, hashedPassword);
         res.status(201).json({ success: true, message: 'User created successfully', user });
     } catch (error) {
         res.status(500).json({ success: false, message: 'Error creating user', error });
@@ -15,10 +15,10 @@ const register = async (req, res) => {
 };
 
 const login = async (req, res) => {
-    const { username, password } = req.body;
+    const { email, password } = req.body;
 
     try {
-        const user = await findUserByUsername(username);
+        const user = await findUserByEmail(email);
         if (!user) {
             return res.status(400).json({ success: false, message: 'Invalid Credentials' });
         }
